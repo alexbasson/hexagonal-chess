@@ -80,8 +80,12 @@ def _legal_move(board: Board, from_sq: Square, to_sq: Square) -> bool:
 
 def _pawn_move(board, piece, from_sq, to_sq, df, dr) -> bool:
     direction = 1 if piece.color == "white" else -1
+    start_rank = 2 if piece.color == "white" else 7
     if df == 0 and dr == direction:
         return board.pieces.get(to_sq) is None
+    if df == 0 and dr == 2 * direction and from_sq.rank == start_rank:
+        mid = Square(file=from_sq.file, rank=from_sq.rank + direction)
+        return board.pieces.get(mid) is None and board.pieces.get(to_sq) is None
     if abs(df) == 1 and dr == direction:
         target = board.pieces.get(to_sq)
         return target is not None and target.color != piece.color

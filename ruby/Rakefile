@@ -1,0 +1,11 @@
+require 'rspec/core/rake_task'
+
+spec_files = FileList['**/spec/**/*_spec.rb']
+
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.ruby_opts = ['-I', spec_files.map { |f| File.dirname(f) }.uniq.join(':')]
+  t.pattern = spec_files.join(',')
+  t.rspec_opts = '--format documentation --color'
+end
+
+task default: :spec

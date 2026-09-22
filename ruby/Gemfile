@@ -4,6 +4,7 @@ ruby '4.0.5'
 
 gem 'sinatra'
 gem 'puma'
+gem 'rackup'
 
 group :test do
   gem 'rake'

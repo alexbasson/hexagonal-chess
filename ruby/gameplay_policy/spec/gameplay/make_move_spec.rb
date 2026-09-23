@@ -80,6 +80,15 @@ RSpec.describe Gameplay::MakeMove do
       expect(result.pieces[target_square]).to eq(Gameplay::Piece::Pawn.new(color: :white))
     end
 
+    it 'pawn advances two squares from starting rank' do
+      two_square_target = Gameplay::Square.new(file: 5, rank: 4)
+      two_square_move   = Gameplay::Move.new(from: white_pawn_square, to: two_square_target)
+
+      result = make_move.call(board_id, two_square_move)
+
+      expect(result.pieces[two_square_target]).to eq(Gameplay::Piece::Pawn.new(color: :white))
+    end
+
     it 'raises when move leaves own king in check' do
       king_square  = Gameplay::Square.new(file: 5, rank: 1)
       enemy_rook   = Gameplay::Square.new(file: 5, rank: 8)

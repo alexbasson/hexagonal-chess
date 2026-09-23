@@ -107,6 +107,12 @@ describe("java adapter", () => {
         parseUser({ id: "u1", email: "a@b.com", displayName: "Alice" })
       ).toEqual({ id: "u1", email: "a@b.com", displayName: "Alice" });
     });
+
+    it("unwraps nested UserId object from Java serialization", () => {
+      expect(
+        parseUser({ id: { value: "u1" }, email: "a@b.com", displayName: "Alice" })
+      ).toEqual({ id: "u1", email: "a@b.com", displayName: "Alice" });
+    });
   });
 
   describe("parseCreateUserResponse", () => {
@@ -136,6 +142,10 @@ describe("java adapter", () => {
   describe("parseFriend", () => {
     it("maps friendId", () => {
       expect(parseFriend({ friendId: "u2" })).toEqual({ friendId: "u2" });
+    });
+
+    it("unwraps nested UserId object from Java serialization", () => {
+      expect(parseFriend({ friendId: { value: "u2" } })).toEqual({ friendId: "u2" });
     });
   });
 

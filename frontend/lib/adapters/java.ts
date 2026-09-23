@@ -52,7 +52,9 @@ export function parseAcceptInvitationResponse(raw: Raw) {
 }
 
 export function parseUser(raw: Raw) {
-  return { id: raw.id as string, email: raw.email as string, displayName: raw.displayName as string };
+  const idObj = raw.id as Raw;
+  const id = (idObj.value ?? raw.id) as string;
+  return { id, email: raw.email as string, displayName: raw.displayName as string };
 }
 
 export function parseCreateUserResponse(raw: Raw) {
@@ -68,7 +70,9 @@ export function buildUpdateUserRequest(email: string, displayName: string) {
 }
 
 export function parseFriend(raw: Raw) {
-  return { friendId: raw.friendId as string };
+  const friendIdObj = raw.friendId as Raw;
+  const friendId = (friendIdObj.value ?? raw.friendId) as string;
+  return { friendId };
 }
 
 export function buildAddFriendRequest(friendId: string) {

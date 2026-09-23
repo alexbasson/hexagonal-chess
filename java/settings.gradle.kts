@@ -11,5 +11,6 @@ include(
     "user-management-policy",
     "user-management-db-adapter",
     "user-management-api-adapter",
+    "user-management-organizing-adapter",
     "chess-app"
 )

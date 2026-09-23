@@ -36,12 +36,17 @@ export default function Dashboard() {
       listInvitations(user.id, "sent"),
       listGames(),
     ]);
+    if (!allU.find((u) => u.id === user.id)) {
+      clearUser();
+      router.replace("/");
+      return;
+    }
     setAllUsers(allU);
     setFriends(fr.filter((f, i, arr) => arr.findIndex((x) => x.friendId === f.friendId) === i));
     setReceivedInvitations(recv.filter((i) => i.status === "pending"));
     setSentInvitations(sent);
     setGames(gs);
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const user = getStoredUser();

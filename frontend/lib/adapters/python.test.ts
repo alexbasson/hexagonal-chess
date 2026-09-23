@@ -20,13 +20,13 @@ import {
 
 describe("python adapter", () => {
   describe("parseBoard", () => {
-    it("normalizes snake_case fields to camelCase", () => {
+    it("reads camelCase response fields", () => {
       expect(
         parseBoard({
           id: "g1",
-          white_player_name: "Alice",
-          black_player_name: "Bob",
-          active_color: "white",
+          whitePlayerName: "Alice",
+          blackPlayerName: "Bob",
+          activeColor: "white",
           pieces: [],
         })
       ).toEqual({
@@ -40,7 +40,7 @@ describe("python adapter", () => {
 
     it("passes pieces through unchanged", () => {
       const piece = { square: { file: 5, rank: 2 }, piece: { type: "Pawn", color: "white" } };
-      expect(parseBoard({ id: "g1", white_player_name: "A", black_player_name: "B", active_color: "white", pieces: [piece] }).pieces).toEqual([piece]);
+      expect(parseBoard({ id: "g1", whitePlayerName: "A", blackPlayerName: "B", activeColor: "white", pieces: [piece] }).pieces).toEqual([piece]);
     });
   });
 
@@ -53,8 +53,8 @@ describe("python adapter", () => {
   });
 
   describe("parseCreateGameResponse", () => {
-    it("maps game_id to id", () => {
-      expect(parseCreateGameResponse({ game_id: "g1" })).toEqual({ id: "g1" });
+    it("maps gameId to id", () => {
+      expect(parseCreateGameResponse({ gameId: "g1" })).toEqual({ id: "g1" });
     });
   });
 
@@ -77,12 +77,12 @@ describe("python adapter", () => {
   });
 
   describe("parseInvitation", () => {
-    it("maps snake_case invitation fields", () => {
+    it("reads camelCase invitation fields", () => {
       expect(
         parseInvitation({
           id: "i1",
-          inviting_user_id: "u1",
-          invited_user_id: "u2",
+          invitingUserId: "u1",
+          invitedUserId: "u2",
           status: "pending",
         })
       ).toEqual({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" });
@@ -90,8 +90,8 @@ describe("python adapter", () => {
   });
 
   describe("parseCreateInvitationResponse", () => {
-    it("maps invitation_id to id", () => {
-      expect(parseCreateInvitationResponse({ invitation_id: "i1" })).toEqual({ id: "i1" });
+    it("maps invitationId to id", () => {
+      expect(parseCreateInvitationResponse({ invitationId: "i1" })).toEqual({ id: "i1" });
     });
   });
 
@@ -105,22 +105,22 @@ describe("python adapter", () => {
   });
 
   describe("parseAcceptInvitationResponse", () => {
-    it("maps game_id to id", () => {
-      expect(parseAcceptInvitationResponse({ game_id: "g1" })).toEqual({ id: "g1" });
+    it("maps gameId to id", () => {
+      expect(parseAcceptInvitationResponse({ gameId: "g1" })).toEqual({ id: "g1" });
     });
   });
 
   describe("parseUser", () => {
-    it("maps snake_case user fields", () => {
+    it("reads camelCase user fields", () => {
       expect(
-        parseUser({ id: "u1", email: "a@b.com", display_name: "Alice" })
+        parseUser({ id: "u1", email: "a@b.com", displayName: "Alice" })
       ).toEqual({ id: "u1", email: "a@b.com", displayName: "Alice" });
     });
   });
 
   describe("parseCreateUserResponse", () => {
-    it("maps user_id to id", () => {
-      expect(parseCreateUserResponse({ user_id: "u1" })).toEqual({ id: "u1" });
+    it("maps userId to id", () => {
+      expect(parseCreateUserResponse({ userId: "u1" })).toEqual({ id: "u1" });
     });
   });
 
@@ -143,8 +143,8 @@ describe("python adapter", () => {
   });
 
   describe("parseFriend", () => {
-    it("maps friend_id to friendId", () => {
-      expect(parseFriend({ friend_id: "u2" })).toEqual({ friendId: "u2" });
+    it("maps friendId field", () => {
+      expect(parseFriend({ friendId: "u2" })).toEqual({ friendId: "u2" });
     });
   });
 

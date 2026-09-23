@@ -19,7 +19,7 @@ import {
 } from "./ruby";
 
 describe("ruby adapter", () => {
-  it("parseBoard normalizes snake_case fields", () => {
+  it("parseBoard reads snake_case response fields", () => {
     expect(
       parseBoard({ id: "g1", white_player_name: "Alice", black_player_name: "Bob", active_color: "white", pieces: [] })
     ).toEqual({ id: "g1", whitePlayerName: "Alice", blackPlayerName: "Bob", activeColor: "white", pieces: [] });
@@ -31,60 +31,60 @@ describe("ruby adapter", () => {
     });
   });
 
-  it("parseCreateGameResponse maps game_id to id", () => {
-    expect(parseCreateGameResponse({ game_id: "g1" })).toEqual({ id: "g1" });
+  it("parseCreateGameResponse maps gameId to id", () => {
+    expect(parseCreateGameResponse({ gameId: "g1" })).toEqual({ id: "g1" });
   });
 
-  it("buildCreateGameRequest uses snake_case", () => {
-    expect(buildCreateGameRequest("Alice", "Bob")).toEqual({ white_name: "Alice", black_name: "Bob" });
+  it("buildCreateGameRequest uses camelCase (Ruby body reads whiteName/blackName)", () => {
+    expect(buildCreateGameRequest("Alice", "Bob")).toEqual({ whiteName: "Alice", blackName: "Bob" });
   });
 
-  it("buildMakeMoveRequest uses from and to (not from_square)", () => {
+  it("buildMakeMoveRequest uses from and to", () => {
     expect(buildMakeMoveRequest("e2", "e4")).toEqual({ from: "e2", to: "e4" });
   });
 
-  it("parseInvitation maps snake_case fields", () => {
+  it("parseInvitation reads camelCase fields", () => {
     expect(
-      parseInvitation({ id: "i1", inviting_user_id: "u1", invited_user_id: "u2", status: "pending" })
+      parseInvitation({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" })
     ).toEqual({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" });
   });
 
-  it("parseCreateInvitationResponse maps invitation_id to id", () => {
-    expect(parseCreateInvitationResponse({ invitation_id: "i1" })).toEqual({ id: "i1" });
+  it("parseCreateInvitationResponse maps invitationId to id", () => {
+    expect(parseCreateInvitationResponse({ invitationId: "i1" })).toEqual({ id: "i1" });
   });
 
-  it("buildCreateInvitationRequest uses snake_case", () => {
-    expect(buildCreateInvitationRequest("u1", "u2")).toEqual({ inviting_user_id: "u1", invited_user_id: "u2" });
+  it("buildCreateInvitationRequest uses camelCase (Ruby body reads invitingUserId/invitedUserId)", () => {
+    expect(buildCreateInvitationRequest("u1", "u2")).toEqual({ invitingUserId: "u1", invitedUserId: "u2" });
   });
 
-  it("parseAcceptInvitationResponse maps game_id to id", () => {
-    expect(parseAcceptInvitationResponse({ game_id: "g1" })).toEqual({ id: "g1" });
+  it("parseAcceptInvitationResponse maps gameId to id", () => {
+    expect(parseAcceptInvitationResponse({ gameId: "g1" })).toEqual({ id: "g1" });
   });
 
-  it("parseUser maps snake_case fields", () => {
-    expect(parseUser({ id: "u1", email: "a@b.com", display_name: "Alice" })).toEqual({
+  it("parseUser reads camelCase displayName field", () => {
+    expect(parseUser({ id: "u1", email: "a@b.com", displayName: "Alice" })).toEqual({
       id: "u1", email: "a@b.com", displayName: "Alice",
     });
   });
 
-  it("parseCreateUserResponse maps user_id to id", () => {
-    expect(parseCreateUserResponse({ user_id: "u1" })).toEqual({ id: "u1" });
+  it("parseCreateUserResponse maps userId to id", () => {
+    expect(parseCreateUserResponse({ userId: "u1" })).toEqual({ id: "u1" });
   });
 
-  it("buildCreateUserRequest uses snake_case", () => {
-    expect(buildCreateUserRequest("a@b.com", "Alice")).toEqual({ email: "a@b.com", display_name: "Alice" });
+  it("buildCreateUserRequest uses camelCase (Ruby body reads displayName)", () => {
+    expect(buildCreateUserRequest("a@b.com", "Alice")).toEqual({ email: "a@b.com", displayName: "Alice" });
   });
 
-  it("buildUpdateUserRequest uses snake_case", () => {
-    expect(buildUpdateUserRequest("a@b.com", "Alice")).toEqual({ email: "a@b.com", display_name: "Alice" });
+  it("buildUpdateUserRequest uses camelCase (Ruby body reads displayName)", () => {
+    expect(buildUpdateUserRequest("a@b.com", "Alice")).toEqual({ email: "a@b.com", displayName: "Alice" });
   });
 
-  it("parseFriend maps friend_id to friendId", () => {
-    expect(parseFriend({ friend_id: "u2" })).toEqual({ friendId: "u2" });
+  it("parseFriend reads camelCase friendId field", () => {
+    expect(parseFriend({ friendId: "u2" })).toEqual({ friendId: "u2" });
   });
 
-  it("buildAddFriendRequest uses snake_case", () => {
-    expect(buildAddFriendRequest("u2")).toEqual({ friend_id: "u2" });
+  it("buildAddFriendRequest uses camelCase (Ruby body reads friendId)", () => {
+    expect(buildAddFriendRequest("u2")).toEqual({ friendId: "u2" });
   });
 
   describe("buildListInvitationsParams", () => {

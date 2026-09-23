@@ -19,11 +19,11 @@ export function parseGame(raw: Raw) {
 }
 
 export function parseCreateGameResponse(raw: Raw) {
-  return { id: raw.game_id as string };
+  return { id: raw.gameId as string };
 }
 
 export function buildCreateGameRequest(whiteName: string, blackName: string) {
-  return { white_name: whiteName, black_name: blackName };
+  return { whiteName, blackName };
 }
 
 export function buildMakeMoveRequest(from: string, to: string) {
@@ -33,46 +33,46 @@ export function buildMakeMoveRequest(from: string, to: string) {
 export function parseInvitation(raw: Raw) {
   return {
     id: raw.id as string,
-    invitingUserId: raw.inviting_user_id as string,
-    invitedUserId: raw.invited_user_id as string,
+    invitingUserId: raw.invitingUserId as string,
+    invitedUserId: raw.invitedUserId as string,
     status: raw.status as string,
   };
 }
 
 export function parseCreateInvitationResponse(raw: Raw) {
-  return { id: raw.invitation_id as string };
+  return { id: raw.invitationId as string };
 }
 
 export function buildCreateInvitationRequest(invitingUserId: string, invitedUserId: string) {
-  return { inviting_user_id: invitingUserId, invited_user_id: invitedUserId };
+  return { invitingUserId, invitedUserId };
 }
 
 export function parseAcceptInvitationResponse(raw: Raw) {
-  return { id: raw.game_id as string };
+  return { id: raw.gameId as string };
 }
 
 export function parseUser(raw: Raw) {
-  return { id: raw.id as string, email: raw.email as string, displayName: raw.display_name as string };
+  return { id: raw.id as string, email: raw.email as string, displayName: raw.displayName as string };
 }
 
 export function parseCreateUserResponse(raw: Raw) {
-  return { id: raw.user_id as string };
+  return { id: raw.userId as string };
 }
 
 export function buildCreateUserRequest(email: string, displayName: string) {
-  return { email, display_name: displayName };
+  return { email, displayName };
 }
 
 export function buildUpdateUserRequest(email: string, displayName: string) {
-  return { email, display_name: displayName };
+  return { email, displayName };
 }
 
 export function parseFriend(raw: Raw) {
-  return { friendId: raw.friend_id as string };
+  return { friendId: raw.friendId as string };
 }
 
 export function buildAddFriendRequest(friendId: string) {
-  return { friend_id: friendId };
+  return { friendId };
 }
 
 export function buildListInvitationsParams(userId: string, direction: string, status?: string | null): Record<string, string> {

@@ -94,7 +94,7 @@ export default function Dashboard() {
   ]);
 
   return (
-    <main className="max-w-2xl mx-auto p-4 flex flex-col gap-6">
+    <main className="max-w-5xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <div className="flex items-center gap-3">
@@ -103,85 +103,89 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader><CardTitle>Received Invitations</CardTitle></CardHeader>
-        <CardContent>
-          <InvitationsList
-            invitations={receivedInvitations}
-            allUsers={allUsers}
-            currentUserId={currentUser.id}
-            direction="received"
-            onAccept={handleAccept}
-            onDecline={handleDecline}
-          />
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader><CardTitle>Received Invitations</CardTitle></CardHeader>
+          <CardContent>
+            <InvitationsList
+              invitations={receivedInvitations}
+              allUsers={allUsers}
+              currentUserId={currentUser.id}
+              direction="received"
+              onAccept={handleAccept}
+              onDecline={handleDecline}
+            />
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader><CardTitle>My Games</CardTitle></CardHeader>
-        <CardContent>
-          {myGameIds.size === 0 ? (
-            <p className="text-sm text-muted-foreground">No active games.</p>
-          ) : (
-            <ul className="flex flex-col gap-2">
-              {games.filter((g) => myGameIds.has(g.id)).map((g) => (
-                <li key={g.id} className="flex items-center justify-between">
-                  <span>{g.whiteName} vs {g.blackName}</span>
-                  <Button size="sm" onClick={() => router.push(`/games/${g.id}`)}>Open</Button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
+        <Card>
+          <CardHeader><CardTitle>My Games</CardTitle></CardHeader>
+          <CardContent>
+            {myGameIds.size === 0 ? (
+              <p className="text-sm text-muted-foreground">No active games.</p>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {games.filter((g) => myGameIds.has(g.id)).map((g) => (
+                  <li key={g.id} className="flex items-center justify-between">
+                    <span>{g.whiteName} vs {g.blackName}</span>
+                    <Button size="sm" onClick={() => router.push(`/games/${g.id}`)}>Open</Button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader><CardTitle>Friends</CardTitle></CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <FriendsList
-            friendIds={friends.map((f) => f.friendId)}
-            allUsers={allUsers}
-            onRemove={handleRemoveFriend}
-          />
-          <Separator />
-          <div className="flex gap-2">
-            <div className="flex-1">
-              <UserCombobox
-                key={addFriendKey}
-                users={allUsers.filter((u) => u.id !== currentUser.id)}
-                onSelect={setAddFriendUser}
-                placeholder="Search by email to add friend"
-              />
+        <Card className="md:col-span-2">
+          <CardHeader><CardTitle>Friends</CardTitle></CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <FriendsList
+              friendIds={friends.map((f) => f.friendId)}
+              allUsers={allUsers}
+              onRemove={handleRemoveFriend}
+            />
+            <Separator />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <UserCombobox
+                    key={addFriendKey}
+                    users={allUsers.filter((u) => u.id !== currentUser.id)}
+                    onSelect={setAddFriendUser}
+                    placeholder="Search by email to add friend"
+                  />
+                </div>
+                <Button onClick={handleAddFriend} disabled={!addFriendUser}>Add friend</Button>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <UserCombobox
+                    key={inviteKey}
+                    users={allUsers.filter((u) => u.id !== currentUser.id)}
+                    onSelect={setInviteUser}
+                    placeholder="Search by email to invite"
+                  />
+                </div>
+                <Button variant="outline" onClick={handleInvite} disabled={!inviteUser}>Invite</Button>
+              </div>
             </div>
-            <Button onClick={handleAddFriend} disabled={!addFriendUser}>Add friend</Button>
-          </div>
-          <div className="flex gap-2 pt-2">
-            <div className="flex-1">
-              <UserCombobox
-                key={inviteKey}
-                users={allUsers.filter((u) => u.id !== currentUser.id)}
-                onSelect={setInviteUser}
-                placeholder="Search by email to invite"
-              />
-            </div>
-            <Button variant="outline" onClick={handleInvite} disabled={!inviteUser}>Invite</Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader><CardTitle>Sent Invitations</CardTitle></CardHeader>
-        <CardContent>
-          <InvitationsList
-            invitations={sentInvitations}
-            allUsers={allUsers}
-            currentUserId={currentUser.id}
-            direction="sent"
-            onAccept={() => {}}
-            onDecline={() => {}}
-          />
-        </CardContent>
-      </Card>
+        <Card className="md:col-span-2">
+          <CardHeader><CardTitle>Sent Invitations</CardTitle></CardHeader>
+          <CardContent>
+            <InvitationsList
+              invitations={sentInvitations}
+              allUsers={allUsers}
+              currentUserId={currentUser.id}
+              direction="sent"
+              onAccept={() => {}}
+              onDecline={() => {}}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }

@@ -45,10 +45,26 @@ node start.mjs
 
 The startup script prompts you to choose a backend (Java, Python, or Ruby), starts it, writes the appropriate `BACKEND_URL` to `.env.local`, and launches the Next.js dev server. The app runs on `http://localhost:3000`.
 
-To run the frontend tests:
+To run the frontend unit tests:
 
 ```bash
 npm test
+```
+
+To run the Playwright end-to-end test, first start the Java backend and the Next.js dev server, then run the test suite:
+
+```bash
+# Terminal 1 — Java backend
+cd java
+./gradlew :chess-app:bootRun
+
+# Terminal 2 — Next.js dev server
+cd frontend
+BACKEND_URL=http://localhost:8080 npm run dev
+
+# Terminal 3 — E2E tests
+cd frontend
+npm run test:e2e
 ```
 
 ## Running the apps

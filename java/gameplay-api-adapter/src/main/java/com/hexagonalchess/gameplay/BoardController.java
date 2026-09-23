@@ -13,9 +13,9 @@ public class BoardController {
     }
 
     @GetMapping("/games/{gameId}/board")
-    public ResponseEntity<Board> getBoard(@PathVariable String gameId) {
+    public ResponseEntity<BoardDTO> getBoard(@PathVariable String gameId) {
         return boardRepository.findById(new BoardId(gameId))
-            .map(ResponseEntity::ok)
+            .map(board -> ResponseEntity.ok(BoardDTO.from(board)))
             .orElse(ResponseEntity.notFound().build());
     }
 }

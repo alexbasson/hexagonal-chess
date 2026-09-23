@@ -69,9 +69,13 @@ module Gameplay
     end
 
     def pawn_move?(board, piece, from, to, df, dr)
-      direction = piece.color == :white ? 1 : -1
+      direction  = piece.color == :white ? 1 : -1
+      start_rank = piece.color == :white ? 2 : 7
       if df == 0 && dr == direction
         board.pieces[to].nil?
+      elsif df == 0 && dr == 2 * direction && from.rank == start_rank
+        intermediate = Square.new(file: from.file, rank: from.rank + direction)
+        board.pieces[intermediate].nil? && board.pieces[to].nil?
       elsif df.abs == 1 && dr == direction
         !board.pieces[to].nil? && board.pieces[to].color != piece.color
       else

@@ -39,3 +39,9 @@ def test_delete_by_owner_and_friend_removes_friendship(repo):
 def test_delete_by_owner_and_friend_does_nothing_when_not_found(repo):
     repo.delete_by_owner_and_friend(OWNER, FRIEND)
     assert repo.find_by_owner_id(OWNER) == []
+
+
+def test_save_does_not_duplicate_existing_friendship(repo):
+    repo.save(FRIENDSHIP)
+    repo.save(FRIENDSHIP)
+    assert repo.find_by_owner_id(OWNER) == [FRIENDSHIP]

@@ -9,7 +9,7 @@ module UserManagement
     end
 
     def save(friendship)
-      @store << friendship
+      @store << friendship unless @store.include?(friendship)
     end
 
     def find_by_owner_id(owner_id)

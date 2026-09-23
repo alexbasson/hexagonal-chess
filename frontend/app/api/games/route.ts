@@ -6,6 +6,7 @@ const adapter = getAdapter();
 
 export async function GET() {
   const res = await fetch(`${backendUrl}/games`);
+  if (!res.ok) return NextResponse.json([]);
   const data = await res.json();
   const games = (data as unknown[]).map((g) => adapter.parseGame(g as Record<string, unknown>));
   return NextResponse.json(games);

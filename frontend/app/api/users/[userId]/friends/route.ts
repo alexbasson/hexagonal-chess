@@ -7,6 +7,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ userId:
   const { userId } = await params;
   const adapter = getAdapter();
   const res = await fetch(`${backendUrl}/users/${userId}/friends`);
+  if (!res.ok) return NextResponse.json([]);
   const data = await res.json();
   return NextResponse.json((data as unknown[]).map((f) => adapter.parseFriend(f as Record<string, unknown>)));
 }

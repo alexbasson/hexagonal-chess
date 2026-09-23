@@ -8,7 +8,8 @@ class InMemoryFriendshipRepository(FriendshipRepository):
         self._store: list[Friendship] = []
 
     def save(self, friendship: Friendship) -> None:
-        self._store.append(friendship)
+        if friendship not in self._store:
+            self._store.append(friendship)
 
     def find_by_owner_id(self, owner_id: UserId) -> list[Friendship]:
         return [f for f in self._store if f.owner_id == owner_id]

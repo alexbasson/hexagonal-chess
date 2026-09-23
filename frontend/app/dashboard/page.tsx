@@ -29,23 +29,27 @@ export default function Dashboard() {
   const [inviteKey, setInviteKey] = useState(0);
 
   const load = useCallback(async (user: User) => {
-    const [allU, fr, recv, sent, gs] = await Promise.all([
-      listUsers(),
-      listFriends(user.id),
-      listInvitations(user.id, "received"),
-      listInvitations(user.id, "sent"),
-      listGames(),
-    ]);
-    if (!allU.find((u) => u.id === user.id)) {
-      clearUser();
-      router.replace("/");
-      return;
+    try {
+      const [allU, fr, recv, sent, gs] = await Promise.all([
+        listUsers(),
+        listFriends(user.id),
+        listInvitations(user.id, "received"),
+        listInvitations(user.id, "sent"),
+        listGames(),
+      ]);
+      if (!allU.find((u) => u.id === user.id)) {
+        clearUser();
+        router.replace("/");
+        return;
+      }
+      setAllUsers(allU);
+      setFriends(fr.filter((f, i, arr) => arr.findIndex((x) => x.friendId === f.friendId) === i));
+      setReceivedInvitations(recv.filter((i) => i.status === "pending"));
+      setSentInvitations(sent);
+      setGames(gs);
+    } catch (err) {
+      console.error("Dashboard load failed:", err);
     }
-    setAllUsers(allU);
-    setFriends(fr.filter((f, i, arr) => arr.findIndex((x) => x.friendId === f.friendId) === i));
-    setReceivedInvitations(recv.filter((i) => i.status === "pending"));
-    setSentInvitations(sent);
-    setGames(gs);
   }, [router]);
 
   useEffect(() => {

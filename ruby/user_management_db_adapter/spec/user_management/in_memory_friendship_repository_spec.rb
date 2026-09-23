@@ -35,4 +35,10 @@ RSpec.describe UserManagement::InMemoryFriendshipRepository do
   it 'does nothing when deleting a non-existent friendship' do
     expect { repo.delete_by_owner_and_friend(owner_id, friend_id) }.not_to raise_error
   end
+
+  it 'does not duplicate an existing friendship on save' do
+    repo.save(friendship)
+    repo.save(friendship)
+    expect(repo.find_by_owner_id(owner_id)).to eq([friendship])
+  end
 end

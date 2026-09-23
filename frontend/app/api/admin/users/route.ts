@@ -6,6 +6,7 @@ const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
 export async function GET() {
   const adapter = getAdapter();
   const res = await fetch(`${backendUrl}/admin/users`);
+  if (!res.ok) return NextResponse.json([]);
   const data = await res.json();
   return NextResponse.json((data as unknown[]).map((u) => adapter.parseUser(u as Record<string, unknown>)));
 }

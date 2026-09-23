@@ -3,19 +3,21 @@ import type { Piece } from "./types";
 type Raw = Record<string, unknown>;
 
 export function parseBoard(raw: Raw) {
+  const idObj = raw.id as Raw;
   return {
-    id: raw.id as string,
+    id: (idObj.value ?? raw.id) as string,
     whitePlayerName: raw.whitePlayerName as string,
     blackPlayerName: raw.blackPlayerName as string,
-    activeColor: raw.activeColor as string,
+    activeColor: (raw.activeColor as string).toLowerCase(),
     pieces: raw.pieces as Piece[],
   };
 }
 
 export function parseGame(raw: Raw) {
+  const idObj = raw.id as Raw;
   const white = raw.white as Raw;
   const black = raw.black as Raw;
-  return { id: raw.id as string, whiteName: white.name as string, blackName: black.name as string };
+  return { id: (idObj.value ?? raw.id) as string, whiteName: white.name as string, blackName: black.name as string };
 }
 
 export function parseCreateGameResponse(raw: Raw) {

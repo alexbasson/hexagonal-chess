@@ -37,12 +37,30 @@ describe("java adapter", () => {
         pieces: [],
       });
     });
+
+    it("unwraps nested BoardId object from Java serialization", () => {
+      expect(
+        parseBoard({ id: { value: "g1" }, whitePlayerName: "Alice", blackPlayerName: "Bob", activeColor: "white", pieces: [] })
+      ).toEqual({ id: "g1", whitePlayerName: "Alice", blackPlayerName: "Bob", activeColor: "white", pieces: [] });
+    });
+
+    it("lowercases activeColor from Java enum serialization", () => {
+      expect(
+        parseBoard({ id: "g1", whitePlayerName: "Alice", blackPlayerName: "Bob", activeColor: "WHITE", pieces: [] })
+      ).toEqual({ id: "g1", whitePlayerName: "Alice", blackPlayerName: "Bob", activeColor: "white", pieces: [] });
+    });
   });
 
   describe("parseGame", () => {
     it("maps nested white/black name to flat fields", () => {
       expect(
         parseGame({ id: "g1", white: { name: "Alice" }, black: { name: "Bob" } })
+      ).toEqual({ id: "g1", whiteName: "Alice", blackName: "Bob" });
+    });
+
+    it("unwraps nested GameId object from Java serialization", () => {
+      expect(
+        parseGame({ id: { value: "g1" }, white: { name: "Alice" }, black: { name: "Bob" } })
       ).toEqual({ id: "g1", whiteName: "Alice", blackName: "Bob" });
     });
   });

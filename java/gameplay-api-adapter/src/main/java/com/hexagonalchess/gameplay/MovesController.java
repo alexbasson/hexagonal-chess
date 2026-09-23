@@ -12,7 +12,7 @@ public class MovesController {
     }
 
     @PostMapping("/games/{gameId}/moves")
-    public Board makeMove(@PathVariable String gameId, @RequestBody MoveRequest request) {
-        return makeMove.execute(new BoardId(gameId), request.toMove());
+    public BoardDTO makeMove(@PathVariable String gameId, @RequestBody MoveRequest request) {
+        return BoardDTO.from(makeMove.execute(new BoardId(gameId), request.toMove()));
     }
 }

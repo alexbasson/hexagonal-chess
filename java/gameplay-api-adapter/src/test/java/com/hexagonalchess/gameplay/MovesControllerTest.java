@@ -34,6 +34,6 @@ class MovesControllerTest {
                     {"from": "e2", "to": "e3"}
                     """))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.activeColor").value("BLACK"));
+            .andExpect(jsonPath("$.activeColor").value("black"));
     }
 }

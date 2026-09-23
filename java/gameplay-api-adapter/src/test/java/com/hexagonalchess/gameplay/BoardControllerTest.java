@@ -34,7 +34,22 @@ class BoardControllerTest {
         when(boardRepository.findById(boardId)).thenReturn(Optional.of(board));
         mockMvc.perform(get("/games/{gameId}/board", "game1"))
             .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value("game1"))
             .andExpect(jsonPath("$.whitePlayerName").value("Alice"))
-            .andExpect(jsonPath("$.activeColor").value("WHITE"));
+            .andExpect(jsonPath("$.activeColor").value("white"));
+    }
+
+    @Test
+    void GET_board_returns_pieces_as_typed_array() throws Exception {
+        var boardId = new BoardId("game1");
+        var pieces = Map.of(new Square(5, 2), (Piece) new Piece.Pawn(Color.WHITE));
+        var board = new Board(boardId, "Alice", "Bob", Color.WHITE, pieces);
+        when(boardRepository.findById(boardId)).thenReturn(Optional.of(board));
+        mockMvc.perform(get("/games/{gameId}/board", "game1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.pieces[0].square.file").value(5))
+            .andExpect(jsonPath("$.pieces[0].square.rank").value(2))
+            .andExpect(jsonPath("$.pieces[0].piece.type").value("Pawn"))
+            .andExpect(jsonPath("$.pieces[0].piece.color").value("white"));
     }
 }

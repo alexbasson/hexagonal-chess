@@ -14,8 +14,10 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
+    "@radix-ui/react-popover": "^1.1.23",
     "chess.js": "^1.4.0",
     "class-variance-authority": "^0.7.1",
+    "cmdk": "^1.1.1",
     "cn": "^0.4.0",
     "inquirer": "^14.2.2",
     "lucide-react": "^1.47.0",

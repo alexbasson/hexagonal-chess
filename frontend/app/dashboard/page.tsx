@@ -9,9 +9,9 @@ import { listInvitations, createInvitation, acceptInvitation, declineInvitation 
 import { listGames } from "@/lib/api/games";
 import { FriendsList } from "@/components/friends/FriendsList";
 import { InvitationsList } from "@/components/invitations/InvitationsList";
+import { UserCombobox } from "@/components/users/UserCombobox";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import type { User, Friend, Invitation, Game } from "@/lib/adapters";
 
@@ -23,8 +23,10 @@ export default function Dashboard() {
   const [receivedInvitations, setReceivedInvitations] = useState<Invitation[]>([]);
   const [sentInvitations, setSentInvitations] = useState<Invitation[]>([]);
   const [games, setGames] = useState<Game[]>([]);
-  const [inviteUserId, setInviteUserId] = useState("");
-  const [addFriendId, setAddFriendId] = useState("");
+  const [addFriendUser, setAddFriendUser] = useState<User | null>(null);
+  const [inviteUser, setInviteUser] = useState<User | null>(null);
+  const [addFriendKey, setAddFriendKey] = useState(0);
+  const [inviteKey, setInviteKey] = useState(0);
 
   const load = useCallback(async (user: User) => {
     const [allU, fr, recv, sent, gs] = await Promise.all([
@@ -49,9 +51,10 @@ export default function Dashboard() {
   }, [router, load]);
 
   async function handleAddFriend() {
-    if (!currentUser || !addFriendId.trim()) return;
-    await addFriend(currentUser.id, addFriendId.trim());
-    setAddFriendId("");
+    if (!currentUser || !addFriendUser) return;
+    await addFriend(currentUser.id, addFriendUser.id);
+    setAddFriendUser(null);
+    setAddFriendKey((k) => k + 1);
     load(currentUser);
   }
 
@@ -62,9 +65,10 @@ export default function Dashboard() {
   }
 
   async function handleInvite() {
-    if (!currentUser || !inviteUserId.trim()) return;
-    await createInvitation(currentUser.id, inviteUserId.trim());
-    setInviteUserId("");
+    if (!currentUser || !inviteUser) return;
+    await createInvitation(currentUser.id, inviteUser.id);
+    setInviteUser(null);
+    setInviteKey((k) => k + 1);
     load(currentUser);
   }
 
@@ -141,20 +145,26 @@ export default function Dashboard() {
           />
           <Separator />
           <div className="flex gap-2">
-            <Input
-              placeholder="Friend user ID"
-              value={addFriendId}
-              onChange={(e) => setAddFriendId(e.target.value)}
-            />
-            <Button onClick={handleAddFriend}>Add friend</Button>
+            <div className="flex-1">
+              <UserCombobox
+                key={addFriendKey}
+                users={allUsers.filter((u) => u.id !== currentUser.id)}
+                onSelect={setAddFriendUser}
+                placeholder="Search by email to add friend"
+              />
+            </div>
+            <Button onClick={handleAddFriend} disabled={!addFriendUser}>Add friend</Button>
           </div>
           <div className="flex gap-2 pt-2">
-            <Input
-              placeholder="Invite user ID to play"
-              value={inviteUserId}
-              onChange={(e) => setInviteUserId(e.target.value)}
-            />
-            <Button variant="outline" onClick={handleInvite}>Invite</Button>
+            <div className="flex-1">
+              <UserCombobox
+                key={inviteKey}
+                users={allUsers.filter((u) => u.id !== currentUser.id)}
+                onSelect={setInviteUser}
+                placeholder="Search by email to invite"
+              />
+            </div>
+            <Button variant="outline" onClick={handleInvite} disabled={!inviteUser}>Invite</Button>
           </div>
         </CardContent>
       </Card>

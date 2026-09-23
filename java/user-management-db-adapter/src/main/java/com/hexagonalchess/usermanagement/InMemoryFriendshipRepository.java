@@ -9,7 +9,9 @@ public class InMemoryFriendshipRepository implements FriendshipRepository {
 
     @Override
     public void save(Friendship friendship) {
-        store.add(friendship);
+        if (!store.contains(friendship)) {
+            store.add(friendship);
+        }
     }
 
     @Override

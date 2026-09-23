@@ -37,7 +37,7 @@ export default function Dashboard() {
       listGames(),
     ]);
     setAllUsers(allU);
-    setFriends(fr);
+    setFriends(fr.filter((f, i, arr) => arr.findIndex((x) => x.friendId === f.friendId) === i));
     setReceivedInvitations(recv.filter((i) => i.status === "pending"));
     setSentInvitations(sent);
     setGames(gs);

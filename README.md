@@ -31,6 +31,26 @@ The rules enforced in every implementation:
 - Adapter modules may depend on domain modules, but not on the deployable.
 - The deployable may depend on everything.
 
+## Frontend
+
+A Next.js frontend is included in the `frontend/` directory. It connects to whichever backend you choose and provides a browser UI for managing users, friends, invitations, and playing games.
+
+Requires Node.js 20+.
+
+```bash
+cd frontend
+npm install
+node start.mjs
+```
+
+The startup script prompts you to choose a backend (Java, Python, or Ruby), starts it, writes the appropriate `BACKEND_URL` to `.env.local`, and launches the Next.js dev server. The app runs on `http://localhost:3000`.
+
+To run the frontend tests:
+
+```bash
+npm test
+```
+
 ## Running the apps
 
 ### Java

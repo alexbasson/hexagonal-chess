@@ -1,5 +1,5 @@
 import type { Invitation } from "@/lib/adapters";
-import { fetchJson, type Fetcher } from "./fetch";
+import { fetchJson, fetchVoid, type Fetcher } from "./fetch";
 
 export async function listInvitations(
   userId: string,
@@ -26,5 +26,5 @@ export async function acceptInvitation(id: string, fetcher?: Fetcher): Promise<{
 }
 
 export async function declineInvitation(id: string, fetcher?: Fetcher): Promise<void> {
-  await fetchJson(`/api/invitations/${id}/decline`, { method: "POST" }, fetcher);
+  await fetchVoid(`/api/invitations/${id}/decline`, { method: "POST" }, fetcher);
 }

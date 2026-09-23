@@ -5,6 +5,14 @@ function mockFetcher(body: unknown, status = 200): typeof fetch {
   return vi.fn().mockResolvedValue({ ok: status < 400, status, json: async () => body });
 }
 
+function mockEmptyFetcher(status = 204): typeof fetch {
+  return vi.fn().mockResolvedValue({
+    ok: status < 400,
+    status,
+    json: async () => { throw new SyntaxError("Unexpected end of JSON input"); },
+  });
+}
+
 describe("invitations api client", () => {
   it("listInvitations fetches with query params", async () => {
     const invitations = [{ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" }];
@@ -26,7 +34,7 @@ describe("invitations api client", () => {
   });
 
   it("declineInvitation posts to decline endpoint", async () => {
-    const fetcher = mockFetcher({}, 204);
+    const fetcher = mockEmptyFetcher(204);
     await declineInvitation("i1", fetcher);
     expect(fetcher).toHaveBeenCalledWith("/api/invitations/i1/decline", expect.objectContaining({ method: "POST" }));
   });

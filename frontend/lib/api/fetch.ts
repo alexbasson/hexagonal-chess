@@ -5,3 +5,8 @@ export async function fetchJson<T>(url: string, init?: RequestInit, fetcher: Fet
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   return res.json();
 }
+
+export async function fetchVoid(url: string, init?: RequestInit, fetcher: Fetcher = fetch): Promise<void> {
+  const res = await fetcher(url, init);
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+}

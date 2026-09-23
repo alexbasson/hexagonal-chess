@@ -15,6 +15,7 @@ import {
   buildUpdateUserRequest,
   parseFriend,
   buildAddFriendRequest,
+  buildListInvitationsParams,
 } from "./ruby";
 
 describe("ruby adapter", () => {
@@ -84,5 +85,15 @@ describe("ruby adapter", () => {
 
   it("buildAddFriendRequest uses snake_case", () => {
     expect(buildAddFriendRequest("u2")).toEqual({ friend_id: "u2" });
+  });
+
+  describe("buildListInvitationsParams", () => {
+    it("uses snake_case user_id param", () => {
+      expect(buildListInvitationsParams("u1", "received")).toEqual({ user_id: "u1", direction: "received" });
+    });
+
+    it("includes status when provided", () => {
+      expect(buildListInvitationsParams("u1", "sent", "pending")).toEqual({ user_id: "u1", direction: "sent", status: "pending" });
+    });
   });
 });

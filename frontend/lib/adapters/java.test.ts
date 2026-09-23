@@ -15,6 +15,7 @@ import {
   buildUpdateUserRequest,
   parseFriend,
   buildAddFriendRequest,
+  buildListInvitationsParams,
 } from "./java";
 
 describe("java adapter", () => {
@@ -152,6 +153,16 @@ describe("java adapter", () => {
   describe("buildAddFriendRequest", () => {
     it("uses camelCase field names", () => {
       expect(buildAddFriendRequest("u2")).toEqual({ friendId: "u2" });
+    });
+  });
+
+  describe("buildListInvitationsParams", () => {
+    it("uses camelCase userId param", () => {
+      expect(buildListInvitationsParams("u1", "received")).toEqual({ userId: "u1", direction: "received" });
+    });
+
+    it("includes status when provided", () => {
+      expect(buildListInvitationsParams("u1", "sent", "pending")).toEqual({ userId: "u1", direction: "sent", status: "pending" });
     });
   });
 });

@@ -6,16 +6,15 @@ const backendUrl = process.env.BACKEND_URL ?? "http://localhost:8080";
 export async function GET(request: NextRequest) {
   const adapter = getAdapter();
   const { searchParams } = new URL(request.url);
-  const userId = searchParams.get("userId");
-  const direction = searchParams.get("direction");
+  const userId = searchParams.get("userId") ?? "";
+  const direction = searchParams.get("direction") ?? "";
   const status = searchParams.get("status");
 
-  const query = new URLSearchParams();
-  if (userId) query.set("user_id", userId);
-  if (direction) query.set("direction", direction);
-  if (status) query.set("status", status);
+  const params = adapter.buildListInvitationsParams(userId, direction, status);
+  const query = new URLSearchParams(params);
 
   const res = await fetch(`${backendUrl}/invitations?${query}`);
+  if (!res.ok) return NextResponse.json([], { status: 200 });
   const data = await res.json();
   return NextResponse.json((data as unknown[]).map((i) => adapter.parseInvitation(i as Record<string, unknown>)));
 }

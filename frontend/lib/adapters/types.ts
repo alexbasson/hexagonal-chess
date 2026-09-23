@@ -50,4 +50,5 @@ export type BackendAdapter = {
   buildUpdateUserRequest: (email: string, displayName: string) => Record<string, unknown>;
   parseFriend: (raw: Record<string, unknown>) => Friend;
   buildAddFriendRequest: (friendId: string) => Record<string, unknown>;
+  buildListInvitationsParams: (userId: string, direction: string, status?: string | null) => Record<string, string>;
 };

@@ -74,3 +74,9 @@ export function parseFriend(raw: Raw) {
 export function buildAddFriendRequest(friendId: string) {
   return { friend_id: friendId };
 }
+
+export function buildListInvitationsParams(userId: string, direction: string, status?: string | null): Record<string, string> {
+  const params: Record<string, string> = { user_id: userId, direction };
+  if (status) params.status = status;
+  return params;
+}

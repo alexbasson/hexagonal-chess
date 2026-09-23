@@ -38,6 +38,9 @@ def test_get_board_returns_200_with_board(client, board_repository):
 
     assert response.status_code == 200
     assert response.json()["id"] == BOARD_ID
+    assert response.json()["whitePlayerName"] == "Alice"
+    assert response.json()["blackPlayerName"] == "Bob"
+    assert response.json()["activeColor"] == "white"
     assert len(response.json()["pieces"]) == 1
 
 

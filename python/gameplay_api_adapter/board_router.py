@@ -13,9 +13,9 @@ def create_board_router(board_repository: BoardRepository) -> APIRouter:
             raise HTTPException(status_code=404)
         return {
             "id": board.id.value,
-            "white_player_name": board.white_player_name,
-            "black_player_name": board.black_player_name,
-            "active_color": board.active_color,
+            "whitePlayerName": board.white_player_name,
+            "blackPlayerName": board.black_player_name,
+            "activeColor": board.active_color,
             "pieces": [
                 {"square": {"file": sq.file, "rank": sq.rank},
                  "piece": {"type": type(p).__name__, "color": p.color}}

@@ -20,9 +20,9 @@ module Organizing
     post '/games' do
       content_type :json
       body = JSON.parse(request.body.read)
-      game_id = @start_game.call(body['white_name'], body['black_name'])
+      game_id = @start_game.call(body['whiteName'], body['blackName'])
       status 201
-      { game_id: game_id.value }.to_json
+      { gameId: game_id.value }.to_json
     end
 
     get '/games' do

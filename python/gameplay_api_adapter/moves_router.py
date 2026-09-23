@@ -1,11 +1,14 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+from pydantic.alias_generators import to_camel
 from gameplay_policy.board_id import BoardId
 from gameplay_policy.square import Square
 from gameplay_policy.move import Move
 
 
 class MoveRequest(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
     from_square: str
     to_square: str
 
@@ -40,9 +43,9 @@ def create_moves_router(make_move) -> APIRouter:
 def _board_response(board):
     return {
         "id": board.id.value,
-        "white_player_name": board.white_player_name,
-        "black_player_name": board.black_player_name,
-        "active_color": board.active_color,
+        "whitePlayerName": board.white_player_name,
+        "blackPlayerName": board.black_player_name,
+        "activeColor": board.active_color,
         "pieces": [
             {"square": {"file": sq.file, "rank": sq.rank},
              "piece": {"type": type(p).__name__, "color": p.color}}

@@ -1,9 +1,12 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+from pydantic.alias_generators import to_camel
 from organizing_policy.game_id import GameId
 
 
 class StartGameRequest(BaseModel):
+    model_config = ConfigDict(alias_generator=to_camel, populate_by_name=True)
+
     white_name: str
     black_name: str
 
@@ -14,7 +17,7 @@ def create_games_router(start_game, get_game, list_games) -> APIRouter:
     @router.post("/games")
     def post_game(body: StartGameRequest):
         game_id = start_game(body.white_name, body.black_name)
-        return {"game_id": game_id.value}
+        return {"gameId": game_id.value}
 
     @router.get("/games/{game_id}")
     def get_game_by_id(game_id: str):

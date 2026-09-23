@@ -35,14 +35,14 @@ def client(start_game, get_game, list_games):
 
 
 def test_post_games_returns_game_id(client):
-    response = client.post("/games", json={"white_name": "Alice", "black_name": "Bob"})
+    response = client.post("/games", json={"whiteName": "Alice", "blackName": "Bob"})
 
     assert response.status_code == 200
-    assert response.json()["game_id"] == "game-1"
+    assert response.json()["gameId"] == "game-1"
 
 
 def test_post_games_calls_start_game(client, start_game):
-    client.post("/games", json={"white_name": "Alice", "black_name": "Bob"})
+    client.post("/games", json={"whiteName": "Alice", "blackName": "Bob"})
 
     start_game.assert_called_once_with("Alice", "Bob")
 

@@ -33,10 +33,10 @@ def client(make_move):
 
 def test_post_move_returns_200_with_updated_board(client):
     response = client.post(f"/games/{BOARD_ID}/moves",
-                           json={"from_square": "e2", "to_square": "e3"})
+                           json={"fromSquare": "e2", "toSquare": "e3"})
 
     assert response.status_code == 200
-    assert response.json()["active_color"] == "black"
+    assert response.json()["activeColor"] == "black"
 
 
 def test_post_move_calls_make_move_with_correct_args(client, make_move):
@@ -44,7 +44,7 @@ def test_post_move_calls_make_move_with_correct_args(client, make_move):
     from gameplay_policy.move import Move
 
     client.post(f"/games/{BOARD_ID}/moves",
-                json={"from_square": "e2", "to_square": "e3"})
+                json={"fromSquare": "e2", "toSquare": "e3"})
 
     make_move.assert_called_once_with(
         BoardId(value=BOARD_ID),
@@ -56,6 +56,6 @@ def test_post_move_returns_422_when_illegal(client, make_move):
     make_move.side_effect = ValueError("illegal move")
 
     response = client.post(f"/games/{BOARD_ID}/moves",
-                           json={"from_square": "e2", "to_square": "e5"})
+                           json={"fromSquare": "e2", "toSquare": "e5"})
 
     assert response.status_code == 422

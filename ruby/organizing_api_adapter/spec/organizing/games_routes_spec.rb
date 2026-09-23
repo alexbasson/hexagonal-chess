@@ -23,10 +23,10 @@ RSpec.describe Organizing::GamesRoutes do
     it 'returns 201 with game id' do
       allow(start_game).to receive(:call).with('Alice', 'Bob').and_return(game_id)
 
-      post '/games', { white_name: 'Alice', black_name: 'Bob' }.to_json, 'CONTENT_TYPE' => 'application/json'
+      post '/games', { whiteName: 'Alice', blackName: 'Bob' }.to_json, 'CONTENT_TYPE' => 'application/json'
 
       expect(last_response.status).to eq(201)
-      expect(JSON.parse(last_response.body)['game_id']).to eq('game-1')
+      expect(JSON.parse(last_response.body)['gameId']).to eq('game-1')
     end
   end
 

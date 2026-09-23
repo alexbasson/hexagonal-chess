@@ -31,11 +31,12 @@ export function buildMakeMoveRequest(from: string, to: string) {
 }
 
 export function parseInvitation(raw: Raw) {
+  const idObj = raw.id as Raw;
   return {
-    id: raw.id as string,
+    id: (idObj.value ?? raw.id) as string,
     invitingUserId: raw.invitingUserId as string,
     invitedUserId: raw.invitedUserId as string,
-    status: raw.status as string,
+    status: (raw.status as string).toLowerCase(),
   };
 }
 

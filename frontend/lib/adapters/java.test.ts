@@ -79,6 +79,18 @@ describe("java adapter", () => {
         })
       ).toEqual({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" });
     });
+
+    it("unwraps nested InvitationId object from Java serialization", () => {
+      expect(
+        parseInvitation({ id: { value: "i1" }, invitingUserId: "u1", invitedUserId: "u2", status: "pending" })
+      ).toEqual({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" });
+    });
+
+    it("lowercases status from Java enum serialization", () => {
+      expect(
+        parseInvitation({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "PENDING" })
+      ).toEqual({ id: "i1", invitingUserId: "u1", invitedUserId: "u2", status: "pending" });
+    });
   });
 
   describe("parseCreateInvitationResponse", () => {

@@ -9,5 +9,7 @@ include(
     "organizing-db-adapter",
     "cross-context-adapter",
     "user-management-policy",
+    "user-management-db-adapter",
+    "user-management-api-adapter",
     "chess-app"
 )
